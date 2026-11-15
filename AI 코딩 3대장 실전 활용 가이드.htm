@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>설치 후 실전 활용 가이드 — 일반 채팅 vs AI 코딩 에이전트 완벽 정복</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-soft: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #64748b;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --claude: #d97757;
+      --claude-soft: #fff5f0;
+      --agy: #1a73e8;
+      --agy-soft: #eef5ff;
+      --codex: #10a37f;
+      --codex-soft: #ecfdf5;
+      --good: #059669;
+      --good-soft: #ecfdf5;
+      --bad: #dc2626;
+      --bad-soft: #fef2f2;
+      --warn: #d97706;
+      --warn-soft: #fffbeb;
+      --code-bg: #0f172a;
+      --code-border: #1e293b;
+      --code-text: #f8fafc;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.06);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1120;
+      --surface: #131c31;
+      --surface-soft: #1c2842;
+      --border: #263554;
+      --border-strong: #36496e;
+      --text: #f1f5f9;
+      --text-sub: #cbd5e1;
+      --text-muted: #94a3b8;
+      --primary: #60a5fa;
+      --primary-soft: rgba(96, 165, 250, 0.14);
+      --claude: #f08c69;
+      --claude-soft: rgba(217, 119, 87, 0.14);
+      --agy: #60a5fa;
+      --agy-soft: rgba(26, 115, 232, 0.16);
+      --codex: #34d399;
+      --codex-soft: rgba(16, 163, 127, 0.14);
+      --good: #34d399;
+      --good-soft: rgba(16, 185, 129, 0.14);
+      --bad: #f87171;
+      --bad-soft: rgba(239, 68, 68, 0.14);
+      --warn: #fbbf24;
+      --warn-soft: rgba(251, 191, 36, 0.12);
+      --code-bg: #070b14;
+      --code-border: #1e293b;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    body {
+      font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.68;
+      letter-spacing: -0.015em;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      overflow-x: clip;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Top Sticky Bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar {
+      background: rgba(19, 28, 49, 0.88);
+    }
+
+    .topbar-inner {
+      max-width: 1040px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
+      text-decoration: none;
+      min-width: 0;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--claude), var(--agy), var(--codex));
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-sub);
+      font-size: 0.84rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .nav-link:hover {
+      background: var(--surface-soft);
+      color: var(--primary);
+    }
+
+    .theme-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-sub);
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.18s ease;
+    }
+    .theme-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1040px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 38px 34px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--claude) 0%, var(--agy) 50%, var(--codex) 100%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      max-width: 100%;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+      line-height: 1.32;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: var(--text-sub);
+      font-size: 1rem;
+      max-width: 780px;
+      margin-bottom: 22px;
+    }
+
+    .quick-jumps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .jump-pill {
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .jump-pill:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Mission Progress Bar */
+    .progress-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+    }
+
+    .progress-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .progress-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .progress-sub {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+    }
+
+    .progress-bar-wrap {
+      flex: 1 1 240px;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-track {
+      flex: 1;
+      min-width: 0;
+      height: 10px;
+      background: var(--surface-soft);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--claude), var(--agy), var(--codex));
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-pct {
+      font-weight: 800;
+      font-size: 0.9rem;
+      color: var(--primary);
+      min-width: 42px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .reset-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-decoration: underline;
+      cursor: pointer;
+      font-family: inherit;
+      flex-shrink: 0;
+    }
+    .reset-btn:hover {
+      color: var(--bad);
+    }
+
+    /* Section */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-sm);
+      width: 100%;
+      min-width: 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .section-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1 1 320px;
+      min-width: 0;
+    }
+
+    .step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
+    .tag-diff { background: var(--primary-soft); color: var(--primary); }
+    .tag-can { background: var(--codex-soft); color: var(--codex); }
+    .tag-how { background: var(--claude-soft); color: var(--claude); }
+    .tag-cmd { background: var(--agy-soft); color: var(--agy); }
+    .tag-safe { background: var(--warn-soft); color: var(--warn); }
+
+    .section h2 {
+      font-size: clamp(1.25rem, 2.2vw, 1.46rem);
+      font-weight: 800;
+      line-height: 1.34;
+    }
+
+    .section-desc {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+    }
+
+    .check-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      flex-shrink: 0;
+      transition: all 0.18s ease;
+    }
+    .check-pill:hover {
+      border-color: var(--primary);
+    }
+    .check-pill input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* Metaphor Dual Cards */
+    .vs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
+      width: 100%;
+    }
+
+    .vs-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 22px;
+      background: var(--surface-soft);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vs-card.agent {
+      background: var(--primary-soft);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    .vs-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .vs-card.agent .vs-label {
+      color: var(--primary);
+    }
+
+    .vs-card h3 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .vs-card p {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .vs-flow {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border-strong);
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* Zero-Overflow Table */
+    .table-wrap {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      table-layout: fixed;
+    }
+
+    th, td {
+      padding: 13px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+      overflow-wrap: break-word;
+    }
+
+    .diff-table th:nth-child(1), .diff-table td:nth-child(1) { width: 18%; }
+    .diff-table th:nth-child(2), .diff-table td:nth-child(2) { width: 38%; }
+    .diff-table th:nth-child(3), .diff-table td:nth-child(3) { width: 44%; }
+
+    .cmd-table th:nth-child(1), .cmd-table td:nth-child(1) { width: 22%; }
+    .cmd-table th:nth-child(2), .cmd-table td:nth-child(2) { width: 48%; }
+    .cmd-table th:nth-child(3), .cmd-table td:nth-child(3) { width: 30%; }
+
+    th {
+      background: var(--surface-soft);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    code.inline {
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.85em;
+      font-weight: 600;
+      color: var(--primary);
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    /* Filter Tabs for Use Cases */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text-sub);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Use-Case Cards Grid */
+    .usecase-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      width: 100%;
+    }
+
+    .usecase-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .usecase-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-sm);
+    }
+    .usecase-card.hidden {
+      display: none;
+    }
+
+    .uc-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .uc-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--primary);
+    }
+
+    .uc-level {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .usecase-card h3 {
+      font-size: 1.06rem;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .usecase-card p {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+    }
+
+    .prompt-label {
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Prompt / Command Box — Clean Wrapping & Zero Overflow */
+    .cmd-box {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: var(--radius-sm);
+      padding: 11px 13px;
+      margin-top: 4px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .cmd-scroll {
+      flex: 1 1 0%;
+      min-width: 0;
+      display: flex;
+      align-items: baseline;
+      gap: 7px;
+    }
+
+    .cmd-prompt {
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
+      color: #60a5fa;
+      font-size: 0.84rem;
+      font-weight: 700;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .cmd-text {
+      font-family: "Pretendard Variable", Pretendard, "JetBrains Mono", monospace;
+      color: var(--code-text);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      word-break: keep-all;
+      min-width: 0;
+      flex: 1 1 0%;
+    }
+
+    .cmd-text.mono {
+      font-family: "JetBrains Mono", "SFMono-Regular", Consolas, Menlo, monospace;
+      font-size: 0.84rem;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 7px;
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+    }
+    .copy-btn.copied {
+      background: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+    }
+
+    /* Workflow Steps */
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+      width: 100%;
+    }
+
+    .wf-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      background: var(--surface-soft);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .wf-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wf-card h4 {
+      font-size: 0.98rem;
+      font-weight: 800;
+    }
+
+    .wf-card p {
+      font-size: 0.87rem;
+      color: var(--text-sub);
+    }
+
+    /* Bad vs Good Prompt Comparison */
+    .prompt-compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+      width: 100%;
+    }
+
+    .pc-box {
+      border-radius: var(--radius-md);
+      padding: 18px;
+      border: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .pc-box.bad {
+      background: var(--bad-soft);
+      border-color: rgba(220, 38, 38, 0.25);
+    }
+    .pc-box.good {
+      background: var(--good-soft);
+      border-color: rgba(5, 150, 105, 0.28);
+    }
+
+    .pc-title {
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pc-box.bad .pc-title { color: var(--bad); }
+    .pc-box.good .pc-title { color: var(--good); }
+
+    .pc-quote {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pc-desc {
+      font-size: 0.84rem;
+      color: var(--text-sub);
+    }
+
+    /* Tool Trio Highlight Cards */
+    .trio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+      width: 100%;
+    }
+
+    .trio-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      background: var(--surface);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .trio-card.claude { border-top: 4px solid var(--claude); }
+    .trio-card.agy { border-top: 4px solid var(--agy); }
+    .trio-card.codex { border-top: 4px solid var(--codex); }
+
+    .trio-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .trio-card p {
+      font-size: 0.87rem;
+      color: var(--text-sub);
+    }
+
+    /* Callout */
+    .callout {
+      border-radius: var(--radius-sm);
+      padding: 15px 18px;
+      font-size: 0.9rem;
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      width: 100%;
+      min-width: 0;
+    }
+    .callout.warn {
+      background: var(--warn-soft);
+      border-color: rgba(217, 119, 6, 0.3);
+    }
+    .callout-title {
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 1px 6px;
+      font-size: 0.79rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: var(--text);
+      background-color: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      font-family: inherit;
+    }
+
+    /* Safety List */
+    .safety-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      width: 100%;
+    }
+
+    .safety-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      background: var(--surface-soft);
+      min-width: 0;
+    }
+    .safety-card h4 {
+      font-size: 0.96rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .safety-card p {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .vs-grid,
+      .usecase-grid,
+      .workflow-grid,
+      .prompt-compare,
+      .trio-grid,
+      .safety-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .container { padding: 20px 14px 60px; }
+      .hero { padding: 26px 18px; }
+      .section { padding: 22px 16px; }
+      .topbar-inner { justify-content: center; padding: 10px 14px; }
+      .nav-links { justify-content: center; width: 100%; }
+
+      /* Responsive Table to Cards */
+      .table-wrap { border: none; background: transparent; }
+      table, thead, tbody, th, td, tr { display: block; width: 100% !important; }
+      thead { display: none; }
+      tbody { display: flex; flex-direction: column; gap: 12px; }
+      tr {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        background: var(--surface-soft);
+        padding: 12px 14px;
+      }
+      td {
+        border-bottom: 1px solid var(--border);
+        padding: 8px 0;
+      }
+      td:last-child { border-bottom: none; }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 800;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+      }
+    }
+
+    @media print {
+      .topbar, .copy-btn, .reset-btn, .filter-bar { display: none !important; }
+      .usecase-card.hidden { display: flex !important; }
+      body { background: #fff; color: #000; }
+      .section, .hero { box-shadow: none; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 상단 고정 바 -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#top" class="brand">
+        <span class="brand-dot"></span>
+        <span>AI 코딩 3대장 실전 활용 가이드</span>
+      </a>
+      <div class="nav-links">
+        <a href="#diff" class="nav-link">일반 채팅과 차이</a>
+        <a href="#usecases" class="nav-link">할 수 있는 일 6선</a>
+        <a href="#howto" class="nav-link">질문 공식</a>
+        <a href="#commands" class="nav-link">필수 명령어</a>
+        <a href="#safety" class="nav-link">안전 수칙</a>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙 다크 모드</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="top">
+
+    <!-- 히어로 영역 -->
+    <section class="hero">
+      <div class="hero-badge">🚀 설치 다음 단계 · 코딩을 1도 모르는 초보자를 위한 실전 입문서</div>
+      <h1>설치 끝! 이제 뭘 시키면 될까요?<br />일반 채팅과 완전히 다른 AI 에이전트 200% 활용법</h1>
+      <p>
+        이름에 '코드(Code)'가 들어간다고 개발자만 쓰는 도구가 아닙니다. <strong>Claude Code · Antigravity(agy) · Codex</strong>의 진짜 정체는
+        내 컴퓨터 폴더 안에 직접 들어와 <strong>파일을 읽고, 문서를 정리하고, 프로그램을 통째로 만들어 주는 '실행형 비서'</strong>입니다.
+        웹사이트 채팅과 무엇이 다른지부터 당장 복사해서 써먹는 실전 명령까지 한눈에 익혀보세요!
+      </p>
+      <div class="quick-jumps">
+        <a href="#diff" class="jump-pill"><span class="pill-dot" style="background:var(--primary)"></span>1. 일반 채팅 vs 코딩 에이전트 차이</a>
+        <a href="#usecases" class="jump-pill"><span class="pill-dot" style="background:var(--codex)"></span>2. 당장 할 수 있는 마법 6가지</a>
+        <a href="#howto" class="jump-pill"><span class="pill-dot" style="background:var(--claude)"></span>3. 찰떡같이 알아듣는 질문 공식</a>
+        <a href="#commands" class="jump-pill"><span class="pill-dot" style="background:var(--agy)"></span>4. 슬래시(/) 명령어 &amp; 3종 비교</a>
+      </div>
+    </section>
+
+    <!-- 실습 미션 진행률 바 -->
+    <div class="progress-card">
+      <div class="progress-info">
+        <span class="progress-title">내 실전 활용 레벨업 미션</span>
+        <span class="progress-sub">아래 가이드를 읽고 하나씩 직접 해본 뒤 체크박스를 눌러보세요!</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span class="progress-pct" id="progressPct">0%</span>
+        <button class="reset-btn" onclick="resetChecks()">초기화</button>
+      </div>
+    </div>
+
+    <!-- 섹션 1: 일반 채팅 vs 코딩 에이전트 결정적 차이 -->
+    <section class="section" id="diff">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="step-tag tag-diff">PART 1 · CORE DIFFERENCE</span>
+          <h2>웹사이트 일반 채팅 vs 내 컴퓨터 AI 코딩 에이전트, 뭐가 다른가요?</h2>
+          <p class="section-desc">가장 쉬운 비유로 기억하세요. <strong>"전화 상담원"</strong>과 <strong>"내 옆자리에 앉아 직접 일해주는 비서"</strong>의 차이입니다.</p>
+        </div>
+        <label class="check-pill">
+          <input type="checkbox" class="step-check" data-id="diff" onchange="updateProgress()" />
+          <span>개념 완벽 이해!</span>
+        </label>
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-card">
+          <span class="vs-label">기존 방식 · 웹 브라우저 채팅 (ChatGPT / Claude / Gemini 웹)</span>
+          <h3>📞 유리창 너머의 '전화 상담원'</h3>
+          <p>
+            내 컴퓨터 안에 무엇이 있는지 전혀 볼 수 없습니다. 내가 직접 파일을 하나씩 업로드하거나 글을 복사해서 붙여넣어 줘야만 대답하며, AI가 짜준 결과물도 <strong>내가 다시 복사해서 파일로 저장</strong>해야 합니다.
+          </p>
+          <div class="vs-flow">내 손이 바쁨: 파일 업로드 → 질문 → 답변 복사 → 직접 붙여넣기 → 에러 나면 다시 복사해 질문</div>
+        </div>
+
+        <div class="vs-card agent">
+          <span class="vs-label">새로운 방식 · 로컬 AI 에이전트 (Claude Code / agy / Codex)</span>
+          <h3>🧑‍💻 내 폴더 안에 상주하는 '실무 비서'</h3>
+          <p>
+            내가 열어준 폴더 안의 파일 수십 개를 <strong>스스로 열어 읽고 파악</strong>합니다. 지시만 내리면 내 컴퓨터에 <strong>실제 파일(웹페이지, 엑셀, 보고서 등)을 직접 만들고</strong>, 스스로 테스트해 오류가 있으면 알아서 고쳐 놓습니다.
+          </p>
+          <div class="vs-flow">AI가 다 처리: 한글로 한 줄 지시 → AI가 폴더 탐색 → 파일 직접 생성·수정 → 오류 자체 점검 완료!</div>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="diff-table">
+          <thead>
+            <tr>
+              <th>비교 항목</th>
+              <th>웹사이트 일반 채팅</th>
+              <th>AI 코딩 에이전트 (claude · agy · codex)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="비교 항목"><strong>내 파일 읽기</strong></td>
+              <td data-label="웹사이트 일반 채팅">내가 직접 파일 첨부 버튼으로 올린 몇 개만 봄 (개수·용량 제한 있음)</td>
+              <td data-label="AI 코딩 에이전트"><strong>작업 폴더 안의 수십~수백 개 파일과 하위 폴더 구조를 스스로 탐색</strong>해서 한꺼번에 읽음</td>
+            </tr>
+            <tr>
+              <td data-label="비교 항목"><strong>결과물 완성</strong></td>
+              <td data-label="웹사이트 일반 채팅">채팅창에 글자·코드로만 보여줌 (저장·실행은 내 몫)</td>
+              <td data-label="AI 코딩 에이전트"><strong>내 폴더 안에 완성된 파일·폴더를 직접 생성 및 수정</strong> (더블클릭하면 바로 열림)</td>
+            </tr>
+            <tr>
+              <td data-label="비교 항목"><strong>에러가 났을 때</strong></td>
+              <td data-label="웹사이트 일반 채팅">"에러 났어"라고 내가 화면을 캡처하거나 복사해서 다시 물어봐야 함</td>
+              <td data-label="AI 코딩 에이전트">AI가 직접 실행해보고 <strong>에러 원인을 스스로 찾은 뒤 고쳐질 때까지 알아서 재시도</strong>함</td>
+            </tr>
+            <tr>
+              <td data-label="비교 항목"><strong>컴퓨터 작업 실행</strong></td>
+              <td data-label="웹사이트 일반 채팅">내 컴퓨터의 폴더 정리, 파일 이름 일괄 변경 같은 작업 불가능</td>
+              <td data-label="AI 코딩 에이전트">내 허락(Yes) 하에 <strong>폴더 생성, 파일 분류, 데이터 합치기 등 실제 컴퓨터 작업 수행</strong></td>
+            </tr>
+            <tr>
+              <td data-label="비교 항목"><strong>내 취향 기억하기</strong></td>
+              <td data-label="웹사이트 일반 채팅">새 채팅방을 열 때마다 배경 설명을 처음부터 다시 해야 함</td>
+              <td data-label="AI 코딩 에이전트">폴더에 지침서(<code class="inline">CLAUDE.md</code>, <code class="inline">AGENTS.md</code>)를 하나 두면 <strong>언제 켜도 규칙을 자동 기억</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 섹션 2: 코딩 몰라도 당장 할 수 있는 마법 6가지 -->
+    <section class="section" id="usecases">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="step-tag tag-can">PART 2 · WHAT YOU CAN DO</span>
+          <h2>"전 코딩을 아예 모르는데요?" — 초보자가 당장 할 수 있는 6가지</h2>
+          <p class="section-desc">아래 예시 프롬프트 옆의 <strong>복사</strong> 버튼을 눌러 <code class="inline">claude</code>, <code class="inline">agy</code>, <code class="inline">codex</code> 창에 그대로 붙여넣어 보세요!</p>
+        </div>
+        <label class="check-pill">
+          <input type="checkbox" class="step-check" data-id="usecase" onchange="updateProgress()" />
+          <span>예시 1개 이상 직접 실행 완료!</span>
+        </label>
+      </div>
+
+      <!-- 카테고리 필터 -->
+      <div class="filter-bar" role="tablist" aria-label="활용 분야 필터">
+        <button class="filter-btn active" onclick="filterCards('all', this)">✨ 전체 보기 (6)</button>
+        <button class="filter-btn" onclick="filterCards('life', this)">🗂️ 파일 정리·일상 자동화</button>
+        <button class="filter-btn" onclick="filterCards('doc', this)">📊 엑셀·문서·보고서</button>
+        <button class="filter-btn" onclick="filterCards('app', this)">🎨 나만의 웹앱·도구 제작</button>
+      </div>
+
+      <div class="usecase-grid">
+        <!-- 카드 1 -->
+        <div class="usecase-card" data-cat="life">
+          <div class="uc-top">
+            <span class="uc-badge">🗂️ 일상·업무 정리</span>
+            <span class="uc-level">난이도 ★☆☆ (왕초보 강추)</span>
+          </div>
+          <h3>1. 엉망진창 폴더 속 파일들 10초 만에 자동 분류하기</h3>
+          <p>다운로드 폴더나 작업 폴더에 뒤섞여 있는 PDF, 사진, 엑셀, 설치 파일들을 종류별·날짜별 폴더로 깔끔하게 정리해 줍니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">지금 이 폴더 안에 있는 파일들을 확인해서 '문서', '이미지', '데이터', '기타' 폴더를 만들고 확장자에 맞게 깔끔하게 이동시켜 줘. 옮기기 전에 어떤 파일을 어디로 옮길지 표로 먼저 보여줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+
+        <!-- 카드 2 -->
+        <div class="usecase-card" data-cat="app">
+          <div class="uc-top">
+            <span class="uc-badge">🎨 나만의 도구 제작</span>
+            <span class="uc-level">난이도 ★☆☆ (체감 만족도 최고!)</span>
+          </div>
+          <h3>2. 인터넷 없이 열리는 '나만의 미니 앱·계산기' 만들기</h3>
+          <p>복리 수익률 계산기, 가계부, 뽀모도로 타이머, 아이와 함께 하는 구구단·영단어 퀴즈 게임 등을 <code class="inline">.html</code> 파일 하나로 뚝딱 만들어 줍니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">초기 투자금, 매월 적립금, 연 목표 수익률, 투자 기간(년)을 슬라이더로 조절하면 최종 자산과 원금 대비 수익금을 예쁜 그래프와 연도별 표로 보여주는 복리 계산기 웹페이지를 calculator.html 파일로 만들어줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+
+        <!-- 카드 3 -->
+        <div class="usecase-card" data-cat="doc">
+          <div class="uc-top">
+            <span class="uc-badge">📊 데이터·엑셀 분석</span>
+            <span class="uc-level">난이도 ★★☆</span>
+          </div>
+          <h3>3. 여러 개의 엑셀·CSV 파일을 합쳐 분석 리포트 뽑기</h3>
+          <p>카드 내역서, 매출 장부, 설문 결과 파일을 폴더에 넣어두기만 하면 알아서 합계를 내고 디자인된 요약 보고서나 새 엑셀 파일로 만들어 줍니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">이 폴더에 있는 모든 엑셀(.xlsx)과 CSV 파일을 읽어서 카테고리별 합계와 월별 추이를 분석해 줘. 그리고 한눈에 보기 좋은 차트가 포함된 대시보드 보고서를 report.html 파일로 만들어줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+
+        <!-- 카드 4 -->
+        <div class="usecase-card" data-cat="doc">
+          <div class="uc-top">
+            <span class="uc-badge">📝 문서 일괄 요약·변환</span>
+            <span class="uc-level">난이도 ★☆☆</span>
+          </div>
+          <h3>4. 흩어진 메모·회의록 파일 수십 개를 읽어 통합 문서 만들기</h3>
+          <p>일일이 열어서 복사할 필요 없이, 폴더 안의 텍스트·마크다운·문서 파일들을 통째로 읽고 핵심 결정 사항과 해야 할 일만 추려 정리합니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">폴더 안에 있는 모든 메모 파일들을 읽고 날짜순으로 핵심 내용을 요약해 줘. 특히 아직 끝나지 않은 '해야 할 일(Action Item)'만 따로 모아서 깔끔한 디자인의 summary.htm 파일로 저장해 줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+
+        <!-- 카드 5 -->
+        <div class="usecase-card" data-cat="life">
+          <div class="uc-top">
+            <span class="uc-badge">⚡ 단순 반복 퇴치</span>
+            <span class="uc-level">난이도 ★★☆</span>
+          </div>
+          <h3>5. 사진·파일 수백 개 이름 일괄 변경 &amp; 용량 줄이기</h3>
+          <p>사람이 손으로 하면 1시간 걸릴 파일 이름 규칙 맞추기(<code class="inline">2026-여행-001.jpg</code> 등)나 이미지 크기 조절도 말 한마디면 몇 초 만에 끝납니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">이 폴더의 사진 파일들을 찍힌 날짜 순서대로 정렬해서 '2026_가족여행_001.jpg', '2026_가족여행_002.jpg' 형식으로 이름을 일괄 변경해 줘. 변경 전후 목록을 먼저 보여주고 내 확인을 받은 뒤에 실행해 줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+
+        <!-- 카드 6 -->
+        <div class="usecase-card" data-cat="app">
+          <div class="uc-top">
+            <span class="uc-badge">🔧 내 입맛대로 개조</span>
+            <span class="uc-level">난이도 ★★☆</span>
+          </div>
+          <h3>6. 기존 웹페이지나 파일 디자인·기능을 말로 고쳐 쓰기</h3>
+          <p>전에 만들어 둔 HTML 가이드나 웹페이지가 있을 때 코드를 몰라도 "글자 키워줘", "인쇄 버튼 넣어줘"라고 말하면 알아서 해당 부분을 찾아 고칩니다.</p>
+          <span class="prompt-label">📋 그대로 복사해서 시켜보세요</span>
+          <div class="cmd-box">
+            <div class="cmd-scroll">
+              <span class="cmd-prompt">&gt;</span>
+              <span class="cmd-text">방금 만든 calculator.html 파일에서 글자 크기를 조금 더 키우고, 오른쪽 위에 '엑셀(CSV)로 결과 저장하기' 버튼을 추가해 줘. 모바일 화면에서도 안 잘리게 다듬어 줘.</span>
+            </div>
+            <button class="copy-btn" onclick="copyCmd(this)">복사</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 3: 찰떡같이 알아듣는 실전 3단계 & 질문 공식 -->
+    <section class="section" id="howto">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="step-tag tag-how">PART 3 · HOW TO WORK</span>
+          <h2>실전 사용 흐름 3단계 &amp; AI가 200% 잘 알아듣는 질문 공식</h2>
+          <p class="section-desc">고수들은 코딩 용어를 쓰는 게 아니라, <strong>"원하는 결과물의 모습"</strong>을 구체적으로 말합니다.</p>
+        </div>
+        <label class="check-pill">
+          <input type="checkbox" class="step-check" data-id="howto" onchange="updateProgress()" />
+          <span>3단계 사용 흐름 마스터!</span>
+        </label>
+      </div>
+
+      <div class="workflow-grid">
+        <div class="wf-card">
+          <span class="wf-num">1</span>
+          <h4>작업할 폴더에서 켜기</h4>
+          <p>처리할 파일들이 들어 있는 폴더(또는 빈 연습 폴더 <code class="inline">ai-workspace</code>)로 이동한 뒤 <code class="inline">claude</code>, <code class="inline">agy</code>, <code class="inline">codex</code> 중 하나를 실행합니다.</p>
+        </div>
+        <div class="wf-card">
+          <span class="wf-num">2</span>
+          <h4>먼저 계획부터 물어보기</h4>
+          <p>큰 작업을 시킬 땐 끝에 <strong>"바로 고치지 말고 어떻게 할지 계획부터 알려줘"</strong>를 붙이면 실수 확률이 0%로 줄어듭니다.</p>
+        </div>
+        <div class="wf-card">
+          <span class="wf-num">3</span>
+          <h4>확인 후 Yes 승인하기</h4>
+          <p>AI가 파일을 만들거나 고치기 전에 허락을 구하면 내용을 슬쩍 확인하고 <kbd>Enter</kbd>(Yes)를 눌러 완성합니다. 마음에 안 들면 바로 말로 다시 고치게 하세요!</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:1.05rem; font-weight:800; margin-bottom:6px;">💡 한 끗 차이로 결과물이 천지 차이 나는 질문 비교</h3>
+      <p style="font-size:0.9rem; color:var(--text-sub);"><strong>[무엇을 읽어서] + [어떤 파일 이름으로] + [꼭 들어갈 기능·디자인]</strong> 3가지만 넣어보세요.</p>
+
+      <div class="prompt-compare">
+        <div class="pc-box bad">
+          <div class="pc-title">❌ 아쉬운 질문 (너무 막연함)</div>
+          <div class="pc-quote">"가계부 하나 만들어줘."</div>
+          <p class="pc-desc">어떤 형태로 만들지(엑셀인지, 웹페이지인지, 파이썬 코드인지) 몰라서 초보자가 실행하기 어려운 복잡한 개발자용 코드를 뱉을 수 있습니다.</p>
+        </div>
+
+        <div class="pc-box good">
+          <div class="pc-title">⭕ 최고로 잘 시키는 질문 (초보자 맞춤 황금 공식!)</div>
+          <div class="pc-quote">"더블클릭하면 크롬에서 바로 열리는 <strong>가계부 웹페이지를 budget.html 파일 하나로</strong> 만들어줘. 날짜·내역·금액 입력칸과 카테고리별 합계 표가 들어가고 깔끔한 카드 디자인으로 해줘."</div>
+          <p class="pc-desc"><strong>"더블클릭하면 바로 열리는 .html 파일 하나로"</strong>라고 지정해 주면 복잡한 설치 없이 누구나 바로 쓸 수 있는 완성품을 만들어 줍니다!</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">🖼️ 초보자 꿀팁: 말로 설명하기 답답할 땐 '스크린샷'을 끌어다 놓으세요!</div>
+        세 도구 모두 <strong>이미지 인식을 지원</strong>합니다. 마음에 드는 디자인 캡처본이나 오류 화면 이미지를 터미널·앱 입력창에 마우스로 <strong>드래그 앤 드롭(끌어다 놓기)</strong> 한 뒤 <em>"이 사진이랑 비슷한 레이아웃으로 만들어줘"</em> 또는 <em>"이 화면처럼 깨지는데 고쳐줘"</em>라고 말하면 귀신같이 알아듣습니다.
+      </div>
+    </section>
+
+    <!-- 섹션 4: 필수 슬래시 명령어 & 3대장 역할 분담 -->
+    <section class="section" id="commands">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="step-tag tag-cmd">PART 4 · CHEAT SHEET &amp; 3 TOOLS</span>
+          <h2>이것만 알면 중수! 필수 명령어 6개 &amp; 3대장 골라 쓰는 법</h2>
+          <p class="section-desc">대화창에 슬래시(<code class="inline">/</code>)를 치면 메뉴가 주르륵 나옵니다. 딱 아래 6개만 기억해 두세요.</p>
+        </div>
+        <label class="check-pill">
+          <input type="checkbox" class="step-check" data-id="commands" onchange="updateProgress()" />
+          <span>필수 명령어 숙지 완료!</span>
+        </label>
+      </div>
+
+      <div class="table-wrap">
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>입력 명령어 / 단축키</th>
+              <th>무슨 역할을 하나요?</th>
+              <th>언제 쓰면 좋나요?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-label="명령어"><code class="inline">/clear</code> (또는 <code class="inline">/new</code>)</td>
+              <td data-label="역할">지금까지 나눈 대화를 깨끗이 비우고 <strong>새 대화 시작</strong></td>
+              <td data-label="언제 쓰나요?">가계부 만들다가 폴더 정리 등 <strong>다른 주제로 넘어갈 때 필수!</strong> (사용량 절약 1등 비결)</td>
+            </tr>
+            <tr>
+              <td data-label="명령어"><code class="inline">/compact</code></td>
+              <td data-label="역할">길어진 대화의 <strong>핵심만 요약해서 기억 공간 확보</strong></td>
+              <td data-label="언제 쓰나요?">한 가지 작업을 오래 이어가다 대화가 너무 길어졌을 때</td>
+            </tr>
+            <tr>
+              <td data-label="명령어"><code class="inline">/init</code></td>
+              <td data-label="역할">현재 폴더를 분석해 <strong>AI용 인수인계 노트 자동 생성</strong></td>
+              <td data-label="언제 쓰나요?">자주 작업하는 폴더에서 AI가 매번 내 규칙(한국어 답변 등)을 기억하게 할 때</td>
+            </tr>
+            <tr>
+              <td data-label="명령어"><code class="inline">/help</code></td>
+              <td data-label="역할">사용 가능한 전체 명령어와 단축키 안내 보기</td>
+              <td data-label="언제 쓰나요?">명령어가 갑자기 기억나지 않을 때 언제든 입력</td>
+            </tr>
+            <tr>
+              <td data-label="명령어"><kbd>Ctrl</kbd> + <kbd>C</kbd> (또는 <kbd>Esc</kbd>)</td>
+              <td data-label="역할">AI가 작업 중일 때 <strong>즉시 일시정지(멈춤)</strong></td>
+              <td data-label="언제 쓰나요?">AI가 내가 원치 않는 방향으로 만들고 있을 때 바로 멈추고 다시 지시!</td>
+            </tr>
+            <tr>
+              <td data-label="명령어"><code class="inline">/exit</code></td>
+              <td data-label="역할">AI 에이전트 대화를 완전히 마치고 빠져나오기</td>
+              <td data-label="언제 쓰나요?">작업을 다 끝내고 일반 터미널로 돌아가거나 창을 닫기 전</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="font-size:1.05rem; font-weight:800; margin-top:24px; margin-bottom:4px;">🤝 세 가지 도구를 다 깔았다면, 언제 뭘 켜면 좋을까요?</h3>
+      <p style="font-size:0.9rem; color:var(--text-sub);">같은 폴더(<code class="inline">ai-workspace</code>) 안에서 기분에 따라 번갈아 켜도 같은 파일을 이어받아 작업할 수 있습니다.</p>
+
+      <div class="trio-grid">
+        <div class="trio-card claude">
+          <h4 style="color:var(--claude)">🟠 Claude Code (<code class="inline">claude</code>)</h4>
+          <p><strong>글쓰기·디자인 감각·전체 기획의 올라운더.</strong> 웹페이지 디자인을 예쁘게 뽑거나, 문서를 매끄럽게 요약·정리하고, 막연한 아이디어를 알아서 척척 구조화할 때 가장 먼저 켜기 좋습니다.</p>
+        </div>
+        <div class="trio-card agy">
+          <h4 style="color:var(--agy)">🔵 Antigravity (<code class="inline">agy</code> / 앱)</h4>
+          <p><strong>마우스 화면(앱) 지원 &amp; 넉넉한 무료 시작.</strong> 검은 터미널 창이 어색할 때 <strong>데스크톱 앱</strong>으로 파일 목록과 결과 화면을 눈으로 보며 작업하기 좋고, 다른 도구 한도가 찼을 때 든든한 파트너가 됩니다.</p>
+        </div>
+        <div class="trio-card codex">
+          <h4 style="color:var(--codex)">🟢 OpenAI Codex (<code class="inline">codex</code>)</h4>
+          <p><strong>논리적인 계산·꼼꼼한 오류 해결사.</strong> 복잡한 엑셀 수식·데이터 통계 검증을 시키거나, 잘 안 풀리는 까다로운 버그를 끝까지 파고들어 정확하게 고쳐낼 때 진가를 발휘합니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 섹션 5: 초보자 필수 안전 수칙 3계명 -->
+    <section class="section" id="safety">
+      <div class="section-header">
+        <div class="section-title-group">
+          <span class="step-tag tag-safe">PART 5 · SAFETY RULES</span>
+          <h2>내 소중한 파일 지키는 초보자 안전 수칙 3계명</h2>
+          <p class="section-desc">실제 파일을 다루는 강력한 비서인 만큼, 아래 3가지만 지키면 100% 안전하게 쓸 수 있습니다.</p>
+        </div>
+        <label class="check-pill">
+          <input type="checkbox" class="step-check" data-id="safety" onchange="updateProgress()" />
+          <span>안전 수칙 3계명 확인 완료!</span>
+        </label>
+      </div>
+
+      <div class="safety-grid">
+        <div class="safety-card">
+          <h4>1️⃣ 항상 '전용 작업 폴더' 안에서 켜기</h4>
+          <p><code class="inline">C:\</code> 드라이브 전체나 내 문서 최상위에서 바로 실행하지 마세요. 작업할 것만 모아둔 전용 폴더(예: <code class="inline">ai-workspace</code>)에 들어가서 켜면 그 폴더 바깥은 건드리지 않아 완벽히 안전합니다.</p>
+        </div>
+        <div class="safety-card">
+          <h4>2️⃣ 원본 사진·중요 장부는 '복사본'으로!</h4>
+          <p>가족사진 이름 바꾸기나 회사 원본 엑셀 정리를 처음 시킬 때는 원본 폴더를 그대로 복사(<kbd>Ctrl</kbd>+<kbd>C</kbd> → <kbd>Ctrl</kbd>+<kbd>V</kbd>)해 테스트 폴더에서 먼저 시켜보는 습관을 들이세요.</p>
+        </div>
+        <div class="safety-card">
+          <h4>3️⃣ '파일 삭제(rm / del)' 질문만 한 번 더 보기</h4>
+          <p>새 파일을 만들거나 읽는 건 언제든 <kbd>Yes</kbd>를 눌러도 괜찮지만, AI가 기존 파일을 <strong>삭제(Delete / rm)</strong>하겠다고 물어볼 때만 꼭 파일 이름을 눈으로 한 번 확인하고 승인하세요.</p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">🎁 나만의 영구 규칙 심어두기: 매번 똑같은 말 반복하기 귀찮다면?</div>
+        작업 폴더 안에 메모장으로 <code class="inline">CLAUDE.md</code> (Codex·공통용은 <code class="inline">AGENTS.md</code>)라는 파일을 만들고 그 안에 <strong>"나는 코딩 초보자니까 항상 쉬운 한국어로 설명해 주고, 결과물은 더블클릭해 열 수 있는 깔끔한 HTML 파일로 만들어줘."</strong>라고 적어두세요. 앞으로 그 폴더에서 AI를 켤 때마다 이 메모를 제일 먼저 읽고 여러분 맞춤 비서로 변신합니다!
+      </div>
+    </section>
+
+    <footer>
+      <p>설치 후 실전 활용 가이드 · 일반 채팅 vs AI 코딩 에이전트 (Claude Code · Google Antigravity · OpenAI Codex)</p>
+      <p style="margin-top:4px;">설치 가이드 파일과 같은 폴더에 보관해 두고 필요할 때마다 더블클릭해 프롬프트를 복사해 쓰세요!</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // 다크 모드 전환
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      const next = isDark ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️ 라이트 모드' : '🌙 다크 모드';
+      try { localStorage.setItem('guide_pref_theme', next); } catch (e) {}
+    }
+
+    // 활용 사례 카테고리 필터
+    function filterCards(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.usecase-card').forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    // 프롬프트 원클릭 복사
+    function copyCmd(btn) {
+      const box = btn.closest('.cmd-box');
+      const textEl = box.querySelector('.cmd-text');
+      const text = textEl ? textEl.textContent.replace(/\s+/g, ' ').trim() : '';
+      if (!text) return;
+
+      const finishCopy = () => {
+        const original = btn.textContent;
+        btn.textContent = '✓ 복사됨!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1600);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(finishCopy).catch(() => fallbackCopy(text, finishCopy));
+      } else {
+        fallbackCopy(text, finishCopy);
+      }
+    }
+
+    function fallbackCopy(text, callback) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); callback(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+
+    // 미션 체크리스트 저장 및 진행률 표시
+    function updateProgress() {
+      const checks = document.querySelectorAll('.step-check');
+      let done = 0;
+      const state = {};
+      checks.forEach(ch => {
+        if (ch.checked) done++;
+        state[ch.getAttribute('data-id')] = ch.checked;
+      });
+      const pct = Math.round((done / checks.length) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPct').textContent = pct + '%';
+      try { localStorage.setItem('usage_guide_checks', JSON.stringify(state)); } catch (e) {}
+    }
+
+    function resetChecks() {
+      document.querySelectorAll('.step-check').forEach(ch => { ch.checked = false; });
+      updateProgress();
+    }
+
+    // 저장된 테마 및 진행률 복원
+    (function init() {
+      try {
+        const savedTheme = localStorage.getItem('guide_pref_theme');
+        if (savedTheme === 'dark') {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.getElementById('themeBtn').textContent = '☀️ 라이트 모드';
+        }
+        const savedChecks = JSON.parse(localStorage.getItem('usage_guide_checks') || '{}');
+        document.querySelectorAll('.step-check').forEach(ch => {
+          const id = ch.getAttribute('data-id');
+          if (savedChecks[id]) ch.checked = true;
+        });
+      } catch (e) {}
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
